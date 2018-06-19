@@ -16,6 +16,10 @@ namespace MLA\PluginMonitor;
 
 /**
  * Log & email site admin when plugins are (de)activated.
+ *
+ * @param string $plugin       Path to the main plugin file from plugins directory.
+ * @param bool   $network_wide Whether to enable the plugin for all sites in the network
+ *                             or just the current site. Multisite only. Default is false.
  */
 function alert( $plugin, $network_wide ) {
 	$user = wp_get_current_user();
