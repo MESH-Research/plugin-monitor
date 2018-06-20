@@ -24,6 +24,8 @@ namespace MLA\PluginMonitor;
 function alert( $plugin, $network_wide ) {
 	$user = wp_get_current_user();
 
+	$alert_emails = apply_filters( 'plugin_monitor_alert_emails', [ get_option( 'admin_email' ) ] );
+
 	$message = sprintf(
 		"%s %s '%s' at the %s level",
 		( ! empty( $user->user_login ) ) ? $user->user_login : 'unknown user',
@@ -31,8 +33,12 @@ function alert( $plugin, $network_wide ) {
 		print_r( $plugin, true ),
 		( $network_wide ) ? 'network' : 'site'
 	);
+
 	error_log( $message );
-	wp_mail( get_option( 'admin_email' ), 'PLUGIN MONITOR ALERT', $message );
+
+	foreach ( $alert_emails as $email ) {
+		wp_mail( $email, 'PLUGIN MONITOR ALERT', $message );
+	}
 }
 
 add_action( 'activated_plugin', __NAMESPACE__ . '\alert', 10, 2 );
