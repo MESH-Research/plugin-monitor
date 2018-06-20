@@ -31,7 +31,7 @@ function alert( $plugin, $network_wide ) {
 		print_r( $plugin, true ),
 		( $network_wide ) ? 'network' : 'site'
 	);
-	trigger_error( $message );
+	error_log( $message );
 	wp_mail( get_option( 'admin_email' ), 'PLUGIN MONITOR ALERT', $message );
 }
 
