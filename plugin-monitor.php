@@ -28,7 +28,7 @@ function alert( $plugin, $network_wide ) {
 
 	if ( defined( 'GLOBAL_SUPER_ADMINS' ) ) {
 		foreach ( explode( ',', constant( 'GLOBAL_SUPER_ADMINS' ) ) as $login ) {
-			$admin_user = get_user_by( 'login', $login );
+			$admin_user     = get_user_by( 'login', $login );
 			$alert_emails[] = $admin_user->user_email;
 		}
 	} else {
