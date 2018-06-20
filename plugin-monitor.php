@@ -15,21 +15,30 @@
 namespace MLA\PluginMonitor;
 
 /**
- * Log & email site admin when plugins are (de)activated.
+ * Log & email when a plugin is (de)activated.
  *
  * @param string $plugin       Path to the main plugin file from plugins directory.
  * @param bool   $network_wide Whether to enable the plugin for all sites in the network
  *                             or just the current site. Multisite only. Default is false.
  */
 function alert( $plugin, $network_wide ) {
-	$user = wp_get_current_user();
+	$current_user = wp_get_current_user();
 
-	$alert_emails = apply_filters( 'plugin_monitor_alert_emails', [ get_option( 'admin_email' ) ] );
+	$alert_emails = [];
+
+	if ( defined( 'GLOBAL_SUPER_ADMINS' ) ) {
+		foreach ( explode( ',', constant( 'GLOBAL_SUPER_ADMINS' ) ) as $login ) {
+			$admin_user = get_user_by( 'login', $login );
+			$alert_emails[] = $admin_user->user_email;
+		}
+	} else {
+		$alert_emails[] = get_option( 'admin_email' );
+	}
 
 	$message = sprintf(
 		"%s %s '%s' at the %s level",
-		( ! empty( $user->user_login ) ) ? $user->user_login : 'unknown user',
-		current_action(),
+		( ! empty( $current_user->user_login ) ) ? $current_user->user_login : 'unknown user',
+		str_replace( '_', ' ', current_action() ),
 		print_r( $plugin, true ),
 		( $network_wide ) ? 'network' : 'site'
 	);

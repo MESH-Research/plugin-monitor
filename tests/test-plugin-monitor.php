@@ -15,8 +15,8 @@ class PluginMonitorTest extends WP_UnitTestCase {
 	 */
 	public function test_activate_alert() {
 		$activate_test = function( $args ) {
-			$this->assertContains( 'activated_plugin', $args['message'] );
-			$this->assertNotContains( 'deactivated_plugin', $args['message'] );
+			$this->assertContains( 'activated', $args['message'] );
+			$this->assertNotContains( 'deactivated', $args['message'] );
 		};
 
 		add_filter( 'wp_mail', $activate_test );
@@ -30,7 +30,7 @@ class PluginMonitorTest extends WP_UnitTestCase {
 	 */
 	public function test_deactivate_alert() {
 		$deactivate_test = function( $args ) {
-			$this->assertContains( 'deactivated_plugin', $args['message'] );
+			$this->assertContains( 'deactivated', $args['message'] );
 		};
 
 		add_filter( 'wp_mail', $deactivate_test );
