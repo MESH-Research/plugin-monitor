@@ -1,4 +1,4 @@
-# HC Notifications
+# Plugin Monitor
 
 [![Build Status](https://travis-ci.org/mlaa/plugin-monitor.svg)](https://travis-ci.org/mlaa/plugin-monitor)
 
