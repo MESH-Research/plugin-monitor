@@ -26,7 +26,11 @@ function alert( $plugin, $network_wide ) {
 
 	$alert_emails = [];
 
-	if ( defined( 'GLOBAL_SUPER_ADMINS' ) ) {
+	if ( defined( 'PLUGIN_MONITOR_ALERT_EMAILS' ) ) {
+		foreach ( explode( ',', constant( 'PLUGIN_MONITOR_ALERT_EMAILS' ) ) as $email ) {
+			$alert_emails[] = $email;
+		}
+	} else if ( defined( 'GLOBAL_SUPER_ADMINS' ) ) {
 		foreach ( explode( ',', constant( 'GLOBAL_SUPER_ADMINS' ) ) as $login ) {
 			$admin_user     = get_user_by( 'login', $login );
 			$alert_emails[] = $admin_user->user_email;
