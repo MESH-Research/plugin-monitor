@@ -33,6 +33,7 @@ class PluginMonitorTest extends WP_UnitTestCase {
 			$this->assertContains( 'deactivated', $args['message'] );
 		};
 
+		activate_plugin( 'hello.php' );
 		add_filter( 'wp_mail', $deactivate_test );
 		deactivate_plugins( 'hello.php' );
 	}
